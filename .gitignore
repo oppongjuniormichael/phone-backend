@@ -1,0 +1,28 @@
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Prisma artifacts
+/generated/
+/prisma/migrations/
+
+# Build outputs
+/dist/
+/build/
+/.next/
+out/
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

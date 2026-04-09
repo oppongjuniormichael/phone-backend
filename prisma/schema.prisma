@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("ADMIN")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Phone {
+  id           String          @id @default(cuid())
+  title        String
+  brand        String
+  model        String
+  condition    String
+  price        Float
+  stockQty     Int
+  sku          String          @unique
+  category     String
+  tags         String          @default("")
+  description  String          @default("")
+  isFeatured   Boolean         @default(false)
+  isPremium    Boolean         @default(false)
+  warranty     String          @default("")
+  status       String          @default("Draft")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  specs        PhoneSpec[]
+  images       PhoneImage[]
+  activities   StockActivity[]
+}
+
+model PhoneSpec {
+  id      String @id @default(cuid())
+  name    String
+  value   String
+  phoneId String
+  phone   Phone  @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+}
+
+model PhoneImage {
+  id      String @id @default(cuid())
+  url     String
+  isCover Boolean @default(false)
+  order   Int     @default(0)
+  phoneId String
+  phone   Phone  @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+}
+
+model StockActivity {
+  id      String   @id @default(cuid())
+  delta   Int
+  reason  String
+  phoneId String
+  phone   Phone    @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
